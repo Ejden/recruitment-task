@@ -1,1 +1,8 @@
+github:
+  webClient:
+    url: https://api.github.com
+    timeoutMillis: 5000
+    maxInMemorySizeInBytes: 786432
+  credentials:
+    token: ${GITHUB_TOKEN}
 
