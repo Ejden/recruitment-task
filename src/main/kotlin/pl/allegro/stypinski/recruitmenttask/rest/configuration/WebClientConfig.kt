@@ -6,5 +6,5 @@ import org.springframework.context.annotation.Configuration
 class WebClientConfig {
     var url: String = ""
     var timeoutMillis: Int = 500
-    var maxInMemorySizeInBytes: Int = 20467
+    var maxInMemorySizeInBytes: Int = 24 * 1024
 }

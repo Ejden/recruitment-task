@@ -24,7 +24,7 @@ repositories {
 val springVersion = "2.3.10.RELEASE"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
+//    implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-hateoas:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-webflux:$springVersion")
@@ -33,7 +33,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$springVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-    testImplementation("org.springframework.security:spring-security-test:$springVersion")
+//    testImplementation("org.springframework.security:spring-security-test:$springVersion")
 }
 
 tasks.withType<KotlinCompile> {
