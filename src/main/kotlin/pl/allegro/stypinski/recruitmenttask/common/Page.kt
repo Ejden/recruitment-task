@@ -1,9 +1,9 @@
-package pl.allegro.stypinski.recruitmenttask.rest.infrastructure.page
+package pl.allegro.stypinski.recruitmenttask.common
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class Page<T> (
-    val content: T,
+    val content: T?,
     @JsonProperty("page")
     val pageInfo: PageInfo
 )
