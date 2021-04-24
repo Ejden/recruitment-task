@@ -1,8 +1,8 @@
-package pl.allegro.stypinski.recruitmenttask.rest.repositories
+package pl.allegro.stypinski.recruitmenttask.repositories
 
 import org.springframework.stereotype.Service
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubClient
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubRepository
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubClient
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubRepository
 import pl.allegro.stypinski.recruitmenttask.common.Page
 
 @Service

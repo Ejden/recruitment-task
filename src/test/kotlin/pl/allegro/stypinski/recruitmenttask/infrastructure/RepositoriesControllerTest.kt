@@ -1,4 +1,4 @@
-package pl.allegro.stypinski.recruitmenttask.rest.repositories
+package pl.allegro.stypinski.recruitmenttask.infrastructure
 
 import GithubClientWireMockExtension
 import org.junit.jupiter.api.Test

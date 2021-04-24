@@ -1,9 +1,10 @@
-package pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.utils
+package pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils.GithubQueryParamValidator
 import java.util.*
 import java.util.stream.Stream
 

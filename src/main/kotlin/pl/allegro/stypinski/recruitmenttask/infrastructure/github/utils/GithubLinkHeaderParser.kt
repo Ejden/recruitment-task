@@ -1,4 +1,4 @@
-package pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.utils
+package pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils
 
 class GithubLinkHeaderParser {
     companion object {

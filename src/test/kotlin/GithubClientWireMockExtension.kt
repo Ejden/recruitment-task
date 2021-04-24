@@ -7,9 +7,9 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
-import pl.allegro.stypinski.recruitmenttask.rest.configuration.GithubConfig
-import pl.allegro.stypinski.recruitmenttask.rest.configuration.TokenCredentials
-import pl.allegro.stypinski.recruitmenttask.rest.configuration.WebClientConfig
+import pl.allegro.stypinski.recruitmenttask.configuration.GithubConfig
+import pl.allegro.stypinski.recruitmenttask.configuration.TokenCredentials
+import pl.allegro.stypinski.recruitmenttask.configuration.WebClientConfig
 
 private val wireMockServer = WireMockServer(WireMockConfiguration.options().dynamicPort())
 

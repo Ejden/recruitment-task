@@ -1,9 +1,9 @@
-package pl.allegro.stypinski.recruitmenttask.graphql
+package pl.allegro.stypinski.recruitmenttask.infrastructure
 
 import com.netflix.graphql.dgs.*
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubClient
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubRepository
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubUser
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubClient
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubRepository
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubUser
 
 @DgsComponent
 class GithubRepositoriesDataFetcher(private val githubClient: GithubClient) {
