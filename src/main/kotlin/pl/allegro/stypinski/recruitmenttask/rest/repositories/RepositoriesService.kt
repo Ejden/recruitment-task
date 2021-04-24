@@ -1,4 +1,4 @@
-package pl.allegro.stypinski.recruitmenttask.rest.core.repositories
+package pl.allegro.stypinski.recruitmenttask.rest.repositories
 
 import org.springframework.stereotype.Service
 import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubClient

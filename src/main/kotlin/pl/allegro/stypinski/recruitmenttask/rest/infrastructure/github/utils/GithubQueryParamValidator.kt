@@ -4,7 +4,7 @@ import java.util.*
 
 class GithubQueryParamValidator {
     companion object {
-        private const val DEFAULT_PER_PAGE: Int = 30
+        const val DEFAULT_PER_PAGE: Int = 30
         const val MAX_PER_PAGE: Int = 100
 
         fun validateType(type: String?): Optional<String> {
