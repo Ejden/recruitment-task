@@ -1,0 +1,9 @@
+github:
+  webClient:
+    timeoutMillis: 5000
+    maxInMemorySizeInBytes: 786432
+  credentials:
+    token: 1234
+spring:
+  main:
+    allow-bean-definition-overriding: true

@@ -22,18 +22,28 @@ repositories {
 }
 
 val springVersion = "2.3.10.RELEASE"
+val junitVersion = "5.7.0"
+val wiremockVersion = "2.27.2"
 
 dependencies {
-//    implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-hateoas:$springVersion")
     implementation("org.springframework.boot:spring-boot-starter-webflux:$springVersion")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$springVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$springVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-//    testImplementation("org.springframework.security:spring-security-test:$springVersion")
+
+    // Junit
+    implementation("org.junit.jupiter:junit-jupiter:$junitVersion")
+
+    // WireMock
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
+    testImplementation("com.squareup.okhttp3:okhttp:4.9.1")
+    testImplementation("com.github.tomakehurst:wiremock-jre8:2.27.2")
 }
 
 tasks.withType<KotlinCompile> {

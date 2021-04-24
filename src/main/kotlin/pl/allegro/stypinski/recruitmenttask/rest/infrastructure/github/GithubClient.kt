@@ -10,6 +10,7 @@ import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.utils.Git
 import pl.allegro.stypinski.recruitmenttask.common.Page
 import pl.allegro.stypinski.recruitmenttask.common.PageInfo
 import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.utils.ParsedLinkHeader
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.io.Serializable
 import java.lang.RuntimeException
@@ -116,12 +117,12 @@ class GithubClient (
         return sumOfStargazers
     }
 
-    private fun getRepos(username: String, perPage: Int, page: Int): Mono<List<GithubRepository>> {
-        return webClient.get()
-            .uri(createUriForRepositories(username = username, perPage = perPage, page = page).toString())
-            .retrieve()
-            .bodyToMono(typeReference<List<GithubRepository>>())
-    }
+//    private fun getRepos(username: String, perPage: Int, page: Int): Mono<List<GithubRepository>> {
+//        return webClient.get()
+//            .uri(createUriForRepositories(username = username, perPage = perPage, page = page).toString())
+//            .retrieve()
+//            .bodyToMono(typeReference<List<GithubRepository>>())
+//    }
 
     private fun createUriForRepositories(username: String, type: String? = null, sort: String? = null, sortDirection: String? = null, perPage: Int, page: Int): URI {
         return UriComponentsBuilder.newInstance()
