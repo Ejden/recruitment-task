@@ -1,17 +1,15 @@
-package pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github
+package pl.allegro.stypinski.recruitmenttask.infrastructure.github
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.UriComponentsBuilder
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.utils.GithubLinkHeaderParser
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.utils.GithubQueryParamValidator
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils.GithubLinkHeaderParser
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils.GithubQueryParamValidator
 import pl.allegro.stypinski.recruitmenttask.common.Page
 import pl.allegro.stypinski.recruitmenttask.common.PageInfo
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.utils.ParsedLinkHeader
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils.ParsedLinkHeader
 import java.io.Serializable
 import java.lang.RuntimeException
 import java.net.URI

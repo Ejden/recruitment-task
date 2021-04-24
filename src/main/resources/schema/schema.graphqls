@@ -1,0 +1,18 @@
+type Query {
+    user(username: String!): User
+}
+
+type User {
+    username: String
+    repositories(page: Int, perPage: Int): Repositories
+}
+
+type Repositories {
+    totalStargazers: Int
+    nodes: [Node]
+}
+
+type Node {
+    name: String
+    stargazersCount: Int
+}

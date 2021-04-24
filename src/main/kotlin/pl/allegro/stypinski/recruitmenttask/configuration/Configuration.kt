@@ -1,4 +1,4 @@
-package pl.allegro.stypinski.recruitmenttask.rest.configuration
+package pl.allegro.stypinski.recruitmenttask.configuration
 
 import io.netty.channel.ChannelOption
 import io.netty.handler.timeout.ReadTimeoutHandler
@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient
 
 import reactor.netty.http.client.HttpClient
 
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubClient
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubClient
 import java.util.concurrent.TimeUnit
 
 @Configuration

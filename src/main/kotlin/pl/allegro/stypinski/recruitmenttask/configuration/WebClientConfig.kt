@@ -1,4 +1,4 @@
-package pl.allegro.stypinski.recruitmenttask.rest.configuration
+package pl.allegro.stypinski.recruitmenttask.configuration
 
 import org.springframework.context.annotation.Configuration
 

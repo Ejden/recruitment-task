@@ -1,4 +1,4 @@
-package pl.allegro.stypinski.recruitmenttask.rest.repositories
+package pl.allegro.stypinski.recruitmenttask.infrastructure
 
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import pl.allegro.stypinski.recruitmenttask.rest.infrastructure.github.GithubRepository
+import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubRepository
 import pl.allegro.stypinski.recruitmenttask.common.Page
+import pl.allegro.stypinski.recruitmenttask.repositories.RepositoriesService
 
 @Controller
 @RequestMapping("api/users")
