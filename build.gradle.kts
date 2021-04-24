@@ -44,6 +44,9 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
     testImplementation("com.squareup.okhttp3:okhttp:4.9.1")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.27.2")
+
+    // Netflix DGS Framework for graphql
+    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:latest.release")
 }
 
 tasks.withType<KotlinCompile> {
