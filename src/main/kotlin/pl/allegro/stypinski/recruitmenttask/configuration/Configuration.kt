@@ -15,7 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 
 import pl.allegro.stypinski.recruitmenttask.infrastructure.github.GithubClient
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 
 @Configuration
 class Configuration {
@@ -28,7 +28,8 @@ class Configuration {
                 .clientConnector(ReactorClientHttpConnector(createHttpClientForGithub(props.webClient.timeoutMillis)))
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "${props.credentials.prefix} ${props.credentials.token}")
                 .codecs { it.defaultCodecs().maxInMemorySize(props.webClient.maxInMemorySizeInBytes) }
-                .build()
+                .build(),
+            createExecutor()
         )
     }
 
@@ -40,6 +41,10 @@ class Configuration {
                 connection.addHandlerLast(ReadTimeoutHandler(timeoutMillis.toLong(), TimeUnit.MILLISECONDS))
                 connection.addHandlerLast(WriteTimeoutHandler(timeoutMillis.toLong(), TimeUnit.MILLISECONDS))
             }
+    }
+
+    private fun createExecutor(): Executor {
+        return Executors.newFixedThreadPool(20)
     }
 }
 

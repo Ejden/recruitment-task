@@ -12,10 +12,16 @@ import pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils.ParsedLi
 import java.lang.RuntimeException
 import java.net.URI
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.stream.Collectors
+import java.util.stream.IntStream
 import kotlin.math.ceil
+import kotlin.streams.toList
 
 class GithubClient (
-    private val webClient: WebClient
+    private val webClient: WebClient,
+    private val executor: Executor
 ) {
 
     companion object {
@@ -24,7 +30,7 @@ class GithubClient (
 
     fun getUser(username: String): GithubUser? {
         val response = webClient.get()
-            .uri(createUriForUser(username).toString())
+            .uri(createUriForUser(username))
             .headers { it.accept = Collections.singletonList(MediaType.valueOf(ACCEPT_HEADER)) }
             .retrieve()
             .toEntity(GithubUserResponse::class.java)
@@ -36,7 +42,7 @@ class GithubClient (
 
     fun getRepositories(username: String, type: String? = null, sort: String? = null, sortDirection: String? = null, perPage: Int, page: Int): Page<List<GithubRepository>> {
         val response = webClient.get()
-            .uri(createUriForRepositories(username, type, sort, sortDirection, perPage, page).toString())
+            .uri(createUriForRepositories(username, type, sort, sortDirection, perPage, page))
             .headers { it.accept = Collections.singletonList(MediaType.valueOf(ACCEPT_HEADER)) }
             .retrieve()
             .toEntityList(GithubRepositoryResponse::class.java)
@@ -82,39 +88,28 @@ class GithubClient (
 
         // Count how many pages are required to get all user repositories and round this number up
         val requestedPages = ceil(user.publicRepos.toDouble() / GithubQueryParamValidator.MAX_PER_PAGE).toInt()
-        val pages = mutableListOf<Int>()
-        var sumOfStargazers = 0L
-        val threads = mutableListOf<Thread>()
 
-        for (i in 1..requestedPages) {
-            pages.add(i)
-        }
+        val repositoryFutures = (1..requestedPages)
+            .map { createUriForRepositories(username = username, perPage = 100, page = it).toString() }
+            .map { CompletableFuture.supplyAsync({ getPageOfRepositories(it) }, executor) }
 
-        for (i in 1..requestedPages) {
-            val run = Runnable {
-                val response = webClient.get()
-                    .uri(createUriForRepositories(username = username, perPage = 100, page = i).toString())
-                    .headers { it.accept = Collections.singletonList(MediaType.valueOf(ACCEPT_HEADER)) }
-                    .retrieve()
-                    .toEntityList(GithubRepositoryResponse::class.java)
-                    .block()
-
-                synchronized(sumOfStargazers) {
-                    response?.body?.forEach { repo -> sumOfStargazers += repo.stargazersCount }
-                }
-            }
-
-            val thread = Thread(run)
-            threads.add(thread)
-            thread.start()
-        }
-
-        threads.forEach(Thread::join)
-
-        return sumOfStargazers
+        return repositoryFutures
+            .map { it.join() }
+            .flatten()
+            .map { it.toGithubRepository() }
+            .sumOf { it.stargazersCount }
     }
 
-    private fun createUriForRepositories(username: String, type: String? = null, sort: String? = null, sortDirection: String? = null, perPage: Int, page: Int): URI {
+    private fun getPageOfRepositories(url: String): MutableList<GithubRepositoryResponse> {
+        return webClient.get()
+            .uri(url)
+            .headers { it.accept = Collections.singletonList(MediaType.valueOf(ACCEPT_HEADER)) }
+            .retrieve()
+            .toEntityList(GithubRepositoryResponse::class.java)
+            .block()?.body!!
+    }
+
+    private fun createUriForRepositories(username: String, type: String? = null, sort: String? = null, sortDirection: String? = null, perPage: Int, page: Int): String {
         return UriComponentsBuilder.newInstance()
             .path("/users/{username}/repos")
             .queryParamIfPresent("type", GithubQueryParamValidator.validateType(type))
@@ -124,13 +119,15 @@ class GithubClient (
             .queryParam("page", GithubQueryParamValidator.validatePage(page))
             .buildAndExpand(username)
             .toUri()
+            .toString()
     }
 
-    private fun createUriForUser(username: String): URI {
+    private fun createUriForUser(username: String): String {
         return UriComponentsBuilder.newInstance()
             .path("/users/{username}")
             .buildAndExpand(username)
             .toUri()
+            .toString()
     }
 
 }

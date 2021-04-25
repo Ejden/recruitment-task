@@ -20,6 +20,7 @@
         <li><a href="#graphql">Graphql</a></li>
       </ul>
     </li>
+    <li><a href="#dalszy-rozwój-aplikacji">Dalszy rozwój aplikacji</a></li>
   </ol>
 </details>
 
@@ -211,3 +212,18 @@ Odpowiedź:
   }
 }
 ```
+
+## Dalszy rozwój aplikacji
+Aplikacja została napisana w sposób pozwalający na łatwe rozbudowanie zarówno w kierunku graphql jak i rest api.
+
+* Jedną z możliwości dalszego rozwoju jest wprowadzenie obsługi błędów typu i zwracanie odpowiedniej odpowiedzi użytkownikowi.
+  Wymagałoby to zaimplementowania np. ControllerAdvice pozwalającego na obsługę błędów i możliwość zwrócenia przyjaznej dla użytkownika końcowego
+  informacji na temat tego co poszło nie tak.
+  
+* Api githuba nie udostępnia bezpośrednio informacji o sumie gwiazdek z repozytoriów danego użytkownika.
+  Wymaga to iteracji po wszystkich repozytoriach, a dla użytkowników o dużej liczbie repozytoriów potrzebna jest duża ilość wykonanych requestów.
+  Przykładem jest firma microsoft, która wymaga wykonania około 40 requestów w celu obliczenia sumy gwiazdek. Jest to zadanie
+  obciążające dla aplikacji i czas odpowiedzi znacznie się wydłuża. Z tego powodu możnaby zaimplementować cache, który trzymałby
+  dane na temat ilości gwiadek, aby nie musieć ich sumy przy każdym zapytaniu
+
+
