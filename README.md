@@ -1,23 +1,93 @@
-# allegro summer e-xperience - zadanie rekrutacyjne nr 3
+# Allegro summer e-xperience - zadanie rekrutacyjne nr 3
 
-### Język Implementacji
+## Spis treści
+<details open="open">
+  <ol>
+    <li><a href="#język-Implementacji">Język Implementacji</a></li>
+    <li><a href="#wykorzystane-biblioteki">Wykorzystane biblioteki</a></li>
+    <li><a href="#live-demo">Live demo</a></li>
+    <li>
+      <a href="#lokalna-instalacja-serwera">Lokalna instalacja serwera</a>
+      <ul>
+        <li><a href="#docker">Docker</a></li>
+        <li><a href="#gradlew">Gradlew</a></li>
+        <li><a href="#intellij-idea">Intellij IDEA</a></li>
+      </ul>
+    </li>
+    <li><a href="#endpointy">Endpointy</a>
+      <ul>
+        <li><a href="#rest-api">Rest Api</a></li>
+        <li><a href="#graphql">Graphql</a></li>
+      </ul>
+    </li>
+  </ol>
+</details>
+
+## Język Implementacji
 * Kotlin
-### Wykorzystane biblioteki
-* Spring Boot
-* WireMock
-* Junit 5
-* graphql-dgs
+## Wykorzystane biblioteki
+* [Spring Boot](https://spring.io/)
+* [Dgs-framework](https://netflix.github.io/dgs/)
+* [WireMock](http://wiremock.org/)
+* [Junit 5](https://junit.org/junit5/)
 
-### Instalacja serwera lokalnie
+## Live demo
+Pod tym adresem znajduje się najnowsza wersja aplikacji z branch master.
 
-#### Docker
+https://allegro-recruitment-task.herokuapp.com/
 
-#### 
+## Lokalna instalacja serwera
 
-### Endpointy
+Przed instalacją serwera do jego poprawnego działania wymagane jest wygenerowanie personal token w serwisie github.
+W tym celu należy wejść w ustawienia profilu na [github](https://github.com/settings/profile). Następnie wejść w
+zakładkę [Developer Seetings](https://github.com/settings/apps). Na liście należy wybrać [Personal access tokens](https://github.com/settings/tokens)
+oraz wygenerować nowy kod. W scopes należy wybrać scope repo -> public_repo. 
+
+### Docker
+Aby uruchomić serwer przy pomocy dockera należy wykonać poniższe kroki w terminalu
+
+* Pobranie aplikacji serwerowej
+```
+docker pull ejden/allegro-recruitment-task:latest
+```
+* Stworzenie i uruchomienie pobranego obrazu. 
+  
+Zapisany zostanie on pod nazwą server, aczkolwiek można ją zmieniać wedle własnego uznania.
+Domyślnie aplikacja zostanie uruchomiona na porcie 8080. Aby to zmienić i mieć dostęp do serwera na przykład na 
+porcie 7070, należy podmienić -p 8080:8080 na -p 7070:8080.
+```
+docker run -p 8080:8080 -e GITHUB_TOKEN='TU_WKLEIC_PERSONAL_TOKEN_Z_GITHBUBA' --name server ejden/allegro-recruitment-task
+```
+
+### Gradlew
+Aby uruchomić aplikację przy pomocy gradle'a należy skopiować kod przy pomocy komendy
+```
+git clone https://github.com/Ejden/recruitment-task.git
+```
+Następnie należy przejść do folderu z utworzonym projektem i zbudować projekt przy użyciu komendy
+```
+gradlew.bat build
+```
+Aby uruchomić serwer należy wywołać komendę
+```
+gradlew.bat bootRun --args='--GITHUB_TOKEN=TU_WKLEIC_PERSONAL_TOKEN_Z_GITHBUBA'
+```
+Aplikacja będzie dostępna pod adresem localhost:8080
+
+### Intellij IDEA
+
+W celu uruchomienia serwera w środowisku Intellij IDEA należy wybrać opcję New->Project from Version Control
+i w polu url wkleić link do repozytorium - https://github.com/Ejden/recruitment-task.git.
+Przed uruchomieniem należy zedytować konfigurację uruchomieniową. W zakładce environment należy wkleić poniższy env w polu
+environment variables
+```
+GITHUB_TOKEN=TU_WKLEIC_PERSONAL_TOKEN_Z_GITHBUBA
+```
+
+## Endpointy
 Aplikacja pozwala na wyciągnięcie danych na dwa sposoby. Za pomocą Rest Api oraz graphql
-#### REST API
-* GET```/api/users/{nazwa uzytkownika}/repositories``` - Pobieranie listingu repozytoriów
+### Rest Api
+* GET ```/api/users/{nazwa uzytkownika}/repositories``` - Pobieranie listingu repozytoriów
 
 Dozwolone Parametry
 
@@ -30,14 +100,56 @@ Dozwolone Parametry
 | per_page  | Integer | Query | Określa ilość repozytoriów na jedną stronę    | od 1 do 100                         | 30                                                               |
 | page      | Integer | Query | Określa stronę którą chcemy pobrać            | od 1                                | 1                                                                |    
 
-* GET```/api/users/{nazwa uzytkownika}/stargazers``` - Pobranie sumy gwiazdek ze wszystkich repozytoriów dla danego użytkownika
+
+#### Przykładowe zapytanie: GET ``` http://localhost:8080/api/users/allegro/repositories?per_page=3&page=2 ```
 
 
-#### GRAPHQL
-* POST```/graphql```
+Odpowiedź:
+```json
+{
+  "content": [
+    {
+      "name": "allegro-tech-labs-microservices",
+      "stargazers_count": 6
+    },
+    {
+      "name": "allegro.tech",
+      "stargazers_count": 20
+    },
+    {
+      "name": "allRank",
+      "stargazers_count": 289
+    }
+  ],
+    "page": {
+    "currentPage": 2,
+    "totalPages": 29,
+    "perPage": 3,
+    "sortBy": null,
+    "sortDirection": null
+  }
+}
+```
 
-Schemat zapytania
-```{
+
+* GET ```/api/users/{nazwa uzytkownika}/stargazers``` - Pobranie sumy gwiazdek ze wszystkich repozytoriów dla danego użytkownika
+
+#### Przykładowe zapytanie: GET ```http://localhost:8080/api/users/allegro/stargazers```
+Odpowiedź:
+```json
+{
+  "stargazersSum": 13104
+}
+```
+
+### Graphql
+* POST ```/graphql```
+
+Graphql udostępnia tylko jeden endpoint, pod który wysyłane są różne zapytania w body.
+
+#### Schemat zapytania
+```graphql
+{
   user(username: String!) {
     username
     repositories(page: Int, perPage: Int) {
@@ -57,4 +169,45 @@ Schemat zapytania
     * Pole `name` określa nazwę repozytorium
     * Pole `stargazersCount` określa liczbę gwiazdek dla pojedyńczego repozytorium
   
-### 
+#### Przykładowe zapytanie: POST ```http://localhost:8080/graphql```
+```graphql
+{
+  user(username: "allegro") {
+    repositories(perPage: 5) {
+      totalStargazers
+      nodes {
+        name
+      }
+    }
+  }
+}
+```
+Odpowiedź:
+```json
+{
+  "data": {
+    "user": {
+      "repositories": {
+        "totalStargazers": 13104,
+        "nodes": [
+          {
+            "name": "akubra"
+          },
+          {
+            "name": "allegro-api"
+          },
+          {
+            "name": "allegro-tech-labs-iot"
+          },
+          {
+            "name": "allegro-tech-labs-microservices"
+          },
+          {
+            "name": "allegro.tech"
+          }
+        ]
+      }
+    }
+  }
+}
+```
