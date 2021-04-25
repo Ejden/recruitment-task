@@ -47,11 +47,11 @@ oraz wygenerować nowy kod. W scopes należy wybrać scope repo -> public_repo.
 ### Docker
 Aby uruchomić serwer przy pomocy dockera należy wykonać poniższe kroki w terminalu
 
-* Pobranie aplikacji serwerowej
+* Pobranie aplikacji serwerowej:
 ```
 docker pull ejden/allegro-recruitment-task:latest
 ```
-* Stworzenie i uruchomienie pobranego obrazu. 
+* Stworzenie i uruchomienie pobranego obrazu
   
 Zapisany zostanie on pod nazwą server, aczkolwiek można ją zmieniać wedle własnego uznania.
 Domyślnie aplikacja zostanie uruchomiona na porcie 8080. Aby to zmienić i mieć dostęp do serwera na przykład na 
@@ -61,15 +61,15 @@ docker run -p 8080:8080 -e GITHUB_TOKEN='TU_WKLEIC_PERSONAL_TOKEN_Z_GITHBUBA' --
 ```
 
 ### Gradlew
-Aby uruchomić aplikację przy pomocy gradle'a należy skopiować kod przy pomocy komendy
+Aby uruchomić aplikację przy pomocy gradle'a należy skopiować kod przy pomocy komendy:
 ```
 git clone https://github.com/Ejden/recruitment-task.git
 ```
-Następnie należy przejść do folderu z utworzonym projektem i zbudować projekt przy użyciu komendy
+Następnie należy przejść do folderu z utworzonym projektem i zbudować projekt przy użyciu komendy:
 ```
 gradlew.bat build
 ```
-Aby uruchomić serwer należy wywołać komendę
+Aby uruchomić serwer należy wywołać komendę:
 ```
 gradlew.bat bootRun --args='--GITHUB_TOKEN=TU_WKLEIC_PERSONAL_TOKEN_Z_GITHBUBA'
 ```
@@ -80,15 +80,15 @@ Aplikacja będzie dostępna pod adresem localhost:8080
 W celu uruchomienia serwera w środowisku Intellij IDEA należy wybrać opcję New->Project from Version Control
 i w polu url wkleić link do repozytorium - https://github.com/Ejden/recruitment-task.git.
 Przed uruchomieniem należy zedytować konfigurację uruchomieniową. W zakładce environment należy wkleić poniższy env w polu
-environment variables
+environment variables.
 ```
 GITHUB_TOKEN=TU_WKLEIC_PERSONAL_TOKEN_Z_GITHBUBA
 ```
 
 ## Endpointy
-Aplikacja pozwala na wyciągnięcie danych na dwa sposoby. Za pomocą Rest Api oraz graphql
+Aplikacja pozwala na wyciągnięcie danych na dwa sposoby. Za pomocą Rest Api oraz graphql.
 ### Rest Api
-* GET ```/api/users/{nazwa uzytkownika}/repositories``` - Pobieranie listingu repozytoriów
+* GET ```/api/users/{nazwa uzytkownika}/repositories``` - Pobieranie listingu repozytoriów.
 
 Dozwolone Parametry
 
@@ -133,7 +133,7 @@ Odpowiedź:
 ```
 
 
-* GET ```/api/users/{nazwa uzytkownika}/stargazers``` - Pobranie sumy gwiazdek ze wszystkich repozytoriów dla danego użytkownika
+* GET ```/api/users/{nazwa uzytkownika}/stargazers``` - Pobranie sumy gwiazdek ze wszystkich repozytoriów dla danego użytkownika.
 
 #### Przykładowe zapytanie: GET ```http://localhost:8080/api/users/allegro/stargazers```
 Odpowiedź:
@@ -164,11 +164,11 @@ Graphql udostępnia tylko jeden endpoint, pod który wysyłane są różne zapyt
 }
 ```
 * Pola z wykrzyknikiem oznaczają, że są wymagane.
-* Repositories określa repozytoria
-    * Pole totalStargazers określa sumę gwiazdek ze wszystkich repozytoriów
+* Repositories określa repozytoria.
+    * Pole `totalStargazers` określa sumę gwiazdek ze wszystkich repozytoriów.
 * Node określa obiekt pojedyńczego repozytorium. 
-    * Pole `name` określa nazwę repozytorium
-    * Pole `stargazersCount` określa liczbę gwiazdek dla pojedyńczego repozytorium
+    * Pole `name` określa nazwę repozytorium.
+    * Pole `stargazersCount` określa liczbę gwiazdek dla pojedyńczego repozytorium.
   
 #### Przykładowe zapytanie: POST ```http://localhost:8080/graphql```
 ```graphql
@@ -216,7 +216,7 @@ Odpowiedź:
 ## Dalszy rozwój aplikacji
 Aplikacja została napisana w sposób pozwalający na łatwe rozbudowanie zarówno w kierunku graphql jak i rest api.
 
-* Jedną z możliwości dalszego rozwoju jest wprowadzenie obsługi błędów typu i zwracanie odpowiedniej odpowiedzi użytkownikowi.
+* Jedną z możliwości dalszego rozwoju jest wprowadzenie obsługi błędów i zwracanie odpowiedniej odpowiedzi użytkownikowi.
   Wymagałoby to zaimplementowania np. ControllerAdvice pozwalającego na obsługę błędów i możliwość zwrócenia przyjaznej dla użytkownika końcowego
   informacji na temat tego co poszło nie tak.
   
@@ -224,6 +224,6 @@ Aplikacja została napisana w sposób pozwalający na łatwe rozbudowanie zarów
   Wymaga to iteracji po wszystkich repozytoriach, a dla użytkowników o dużej liczbie repozytoriów potrzebna jest duża ilość wykonanych requestów.
   Przykładem jest firma microsoft, która wymaga wykonania około 40 requestów w celu obliczenia sumy gwiazdek. Jest to zadanie
   obciążające dla aplikacji i czas odpowiedzi znacznie się wydłuża. Z tego powodu możnaby zaimplementować cache, który trzymałby
-  dane na temat ilości gwiadek, aby nie musieć ich sumy przy każdym zapytaniu
+  dane na temat ilości gwiadek, aby nie musieć liczyć ich sumy przy każdym zapytaniu.
 
 
