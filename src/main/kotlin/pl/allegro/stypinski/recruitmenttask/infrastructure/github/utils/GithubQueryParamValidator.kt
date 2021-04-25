@@ -16,7 +16,6 @@ class GithubQueryParamValidator {
 
         fun validateSortBy(sortBy: String?): Optional<String> {
             return when (sortBy) {
-                null -> Optional.empty<String>()
                 "created", "updated", "pushed", "full_name" -> Optional.of(sortBy)
                 else -> Optional.empty<String>()
             }
@@ -24,7 +23,6 @@ class GithubQueryParamValidator {
 
         fun validateSortDirection(sortDirection: String?): Optional<String> {
             return when (sortDirection) {
-                null -> Optional.empty<String>()
                 "asc", "desc" -> Optional.of(sortDirection)
                 else -> Optional.empty<String>()
             }
