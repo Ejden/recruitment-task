@@ -14,7 +14,7 @@ import pl.allegro.stypinski.recruitmenttask.repositories.RepositoriesService
 @RequestMapping("api/users")
 class RepositoriesController(val repositoriesService: RepositoriesService) {
 
-    @GetMapping("/{username}/repositories")
+    @GetMapping("{username}/repositories")
     fun getRepositoriesListing(
         @PathVariable username: String,
         @RequestParam type: String?,
@@ -28,7 +28,7 @@ class RepositoriesController(val repositoriesService: RepositoriesService) {
         return ResponseEntity.ok(response)
     }
 
-    @GetMapping("/{username}/stargazers")
+    @GetMapping("{username}/stargazers")
     fun getStargazersSum(@PathVariable username: String): ResponseEntity<StargazersResponse> {
         return ResponseEntity.ok(StargazersResponse(repositoriesService.getStargazersSum(username)))
     }

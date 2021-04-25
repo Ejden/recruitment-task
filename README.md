@@ -54,7 +54,7 @@ Schemat zapytania
 * Repositories określa repozytoria
     * Pole totalStargazers określa sumę gwiazdek ze wszystkich repozytoriów
 * Node określa obiekt pojedyńczego repozytorium. 
-    * Pole name określa nazwę repozytorium
-    * Pole stargazersCount określa liczbę gwiazdek dla pojedyńczego repozytorium
+    * Pole `name` określa nazwę repozytorium
+    * Pole `stargazersCount` określa liczbę gwiazdek dla pojedyńczego repozytorium
   
 ### 
