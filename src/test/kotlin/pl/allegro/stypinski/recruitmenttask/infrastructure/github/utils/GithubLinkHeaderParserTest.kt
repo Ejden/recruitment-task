@@ -55,7 +55,7 @@ internal class GithubLinkHeaderParserTest {
                     "<$githubBaseUrl/users/1234/repos?per_page=30&page=3>; rel=\"next\"",
                     ParsedLinkHeader(
                         previousPageUrl = "$githubBaseUrl/users/1234/repos?per_page=30&page=1",
-                        nextPageUrl = "$githubBaseUrl/users/1234/repos?per_page=30&page=3; rel=\"next\""
+                        nextPageUrl = "$githubBaseUrl/users/1234/repos?per_page=30&page=3"
                     )
                 ),
                 Arguments.of(
@@ -111,5 +111,8 @@ internal class GithubLinkHeaderParserTest {
         val parsedHeader = GithubLinkHeaderParser.parseLinkHeader(header)
         // Then
         assertEquals(expected.firstPageUrl, parsedHeader.firstPageUrl)
+        assertEquals(expected.lastPageUrl, parsedHeader.lastPageUrl)
+        assertEquals(expected.nextPageUrl, parsedHeader.nextPageUrl)
+        assertEquals(expected.previousPageUrl, parsedHeader.previousPageUrl)
     }
 }
