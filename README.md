@@ -148,11 +148,11 @@ Odpowiedź:
 Graphql udostępnia tylko jeden endpoint, pod który wysyłane są różne zapytania w body.
 
 #### Schemat zapytania
-```graphql
+```graphql endpoint
 {
   user(username: String!) {
     username
-    repositories(page: Int, perPage: Int) {
+    repositories(page: Int, perPage: Int, type: String, sort: String, direction: String) {
       totalStargazers
       nodes {
         name

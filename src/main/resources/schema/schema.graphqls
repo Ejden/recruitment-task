@@ -4,7 +4,7 @@ type Query {
 
 type User {
     username: String
-    repositories(page: Int, perPage: Int): Repositories
+    repositories(page: Int, perPage: Int, type: String, sort: String, direction: String): Repositories
 }
 
 type Repositories {

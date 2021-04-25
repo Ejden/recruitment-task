@@ -1,4 +1,4 @@
-package pl.allegro.stypinski.recruitmenttask.infrastructure
+package pl.allegro.stypinski.recruitmenttask.infrastructure.rest
 
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

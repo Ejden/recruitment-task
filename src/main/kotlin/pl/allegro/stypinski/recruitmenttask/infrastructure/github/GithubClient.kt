@@ -115,13 +115,6 @@ class GithubClient (
         return sumOfStargazers
     }
 
-//    private fun getRepos(username: String, perPage: Int, page: Int): Mono<List<GithubRepository>> {
-//        return webClient.get()
-//            .uri(createUriForRepositories(username = username, perPage = perPage, page = page).toString())
-//            .retrieve()
-//            .bodyToMono(typeReference<List<GithubRepository>>())
-//    }
-
     private fun createUriForRepositories(username: String, type: String? = null, sort: String? = null, sortDirection: String? = null, perPage: Int, page: Int): URI {
         return UriComponentsBuilder.newInstance()
             .path("/users/{username}/repos")
