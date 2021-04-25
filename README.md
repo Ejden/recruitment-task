@@ -110,15 +110,15 @@ Odpowiedź:
   "content": [
     {
       "name": "allegro-tech-labs-microservices",
-      "stargazers_count": 6
+      "stargazersCount": 6
     },
     {
       "name": "allegro.tech",
-      "stargazers_count": 20
+      "stargazersCount": 20
     },
     {
       "name": "allRank",
-      "stargazers_count": 289
+      "stargazersCount": 289
     }
   ],
     "page": {
@@ -138,7 +138,7 @@ Odpowiedź:
 Odpowiedź:
 ```json
 {
-  "stargazersSum": 13104
+  "totalStargazers": 2
 }
 ```
 

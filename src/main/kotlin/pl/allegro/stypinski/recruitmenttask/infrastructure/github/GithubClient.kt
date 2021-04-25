@@ -1,7 +1,6 @@
 package pl.allegro.stypinski.recruitmenttask.infrastructure.github
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.UriComponentsBuilder
@@ -10,7 +9,6 @@ import pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils.GithubQu
 import pl.allegro.stypinski.recruitmenttask.common.Page
 import pl.allegro.stypinski.recruitmenttask.common.PageInfo
 import pl.allegro.stypinski.recruitmenttask.infrastructure.github.utils.ParsedLinkHeader
-import java.io.Serializable
 import java.lang.RuntimeException
 import java.net.URI
 import java.util.*
@@ -29,10 +27,10 @@ class GithubClient (
             .uri(createUriForUser(username).toString())
             .headers { it.accept = Collections.singletonList(MediaType.valueOf(ACCEPT_HEADER)) }
             .retrieve()
-            .toEntity(GithubUser::class.java)
+            .toEntity(GithubUserResponse::class.java)
             .block()
 
-        return response?.body
+        return response?.body?.toGithubUser()
     }
 
 
@@ -41,14 +39,15 @@ class GithubClient (
             .uri(createUriForRepositories(username, type, sort, sortDirection, perPage, page).toString())
             .headers { it.accept = Collections.singletonList(MediaType.valueOf(ACCEPT_HEADER)) }
             .retrieve()
-            .toEntityList(GithubRepository::class.java)
+            .toEntityList(GithubRepositoryResponse::class.java)
             .block()
 
+        val repositories = response?.body?.map { it.toGithubRepository() }
         val linkHeader = response?.headers?.get(HttpHeaders.LINK)?.get(0)
         val parsedLinkHeader = GithubLinkHeaderParser.parseLinkHeader(linkHeader)
 
         return Page(
-            content = response?.body,
+            content = repositories,
             pageInfo = PageInfo(
                 currentPage = GithubQueryParamValidator.validatePage(page),
                 totalPages = countTotalPages(parsedLinkHeader),
@@ -97,7 +96,7 @@ class GithubClient (
                     .uri(createUriForRepositories(username = username, perPage = 100, page = i).toString())
                     .headers { it.accept = Collections.singletonList(MediaType.valueOf(ACCEPT_HEADER)) }
                     .retrieve()
-                    .toEntity(typeReference<List<GithubRepository>>())
+                    .toEntityList(GithubRepositoryResponse::class.java)
                     .block()
 
                 synchronized(sumOfStargazers) {
@@ -139,16 +138,35 @@ class GithubClient (
 data class GithubUser (
     val id: Long,
     val login: String,
-    @JsonProperty("public_repos")
     val publicRepos: Long
 )
 
-class GithubRepository (
+// Wrapper for github snake case
+private data class GithubUserResponse (
+    val id: Long,
+    val login: String,
+    @JsonProperty("public_repos")
+    val publicRepos: Long
+) {
+    fun toGithubUser(): GithubUser {
+        return GithubUser(id, login, publicRepos)
+    }
+}
+
+data class GithubRepository (
+    val name: String,
+    val stargazersCount: Long
+)
+
+// Wrapper for github snake case
+private data class GithubRepositoryResponse (
     val name: String,
     @JsonProperty("stargazers_count")
     val stargazersCount: Long
-): Serializable
-
-inline fun <reified T> typeReference() = object : ParameterizedTypeReference<T>() {}
+) {
+    fun toGithubRepository(): GithubRepository {
+        return GithubRepository(name, stargazersCount)
+    }
+}
 
 class UserNotFoundException(username: String): RuntimeException("User $username not found")

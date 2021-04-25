@@ -36,5 +36,5 @@ class RepositoriesController(val repositoriesService: RepositoriesService) {
 }
 
 data class StargazersResponse (
-    val stargazersSum: Long
+    val totalStargazers: Long
 )
